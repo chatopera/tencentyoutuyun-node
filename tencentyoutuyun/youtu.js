@@ -1498,3 +1498,213 @@ exports.namecardocr = function(imagePath,　retImage, callback) {
 }
 
 
+/**
+ * @brief generalocr
+ * @param imagePath 待处理的图片路径（本地路径或url）
+ * @param callback 回调函数, 参见Readme 文档
+ */
+exports.generalocr = function(imagePath, callback) {
+
+    callback = callback || function(ret){console.log(ret)};
+
+    var expired = parseInt(Date.now() / 1000) + EXPIRED_SECONDS;
+    var sign  = auth.appSign(expired);
+    var tag = imagePath.substring(0,4);
+    var request_body = '';
+    if (tag == 'http')
+    {
+        var request_body = JSON.stringify({
+            app_id: conf.APPID,
+            url : imagePath
+        });
+    }
+    else
+    {
+        try {
+           var image_data = fs.readFileSync(imagePath).toString('base64');
+        } catch (e) {
+           callback({'httpcode':0, 'code':-1, 'message':'file ' + imagePath + ' not exists', 'data':{}});
+           return;
+        }
+
+        if(image_data == null) {
+            callback({'httpcode':0, 'code':-1, 'message':'file ' + imagePath + ' not exists or params error', 'data':{}});
+            return;
+        };
+
+        var request_body = JSON.stringify({
+            app_id: conf.APPID,
+            image : image_data.toString('base64')
+        });
+    }
+    
+    var params = {
+        hostname: conf.API_YOUTU_SERVER,
+        path: '/youtu/ocrapi/generalocr',
+        method: 'POST',
+        headers: {
+            'Authorization': sign,
+            'User-Agent'   : conf.USER_AGENT(),
+            'Content-Length': request_body.length,
+            'Content-Type': 'text/json'
+        }                
+    };
+     
+    //console.log(request_body);
+    var request = null;
+    if (conf.API_DOMAIN == 0)
+    {
+        request = getrequest(http, params, callback);
+    } 
+    else {
+        request = getrequest(https, params, callback);
+    } 
+       
+    request.on('error', function(e) {
+         callback({'httpcode': 0, 'code': 0, 'message':e.message, 'data': {}});
+    });
+
+    // send the request body
+    request.end(request_body);
+}
+
+/**
+ * @brief driverlicenseocr
+ * @param imagePath 待处理的图片路径（本地路径或url）
+ * @param callback 回调函数, 参见Readme 文档
+ */
+exports.driverlicenseocr = function(imagePath, callback) {
+
+    callback = callback || function(ret){console.log(ret)};
+
+    var expired = parseInt(Date.now() / 1000) + EXPIRED_SECONDS;
+    var sign  = auth.appSign(expired);
+    var tag = imagePath.substring(0,4);
+    var request_body = '';
+    if (tag == 'http')
+    {
+        var request_body = JSON.stringify({
+            app_id: conf.APPID,
+            url : imagePath
+        });
+    }
+    else
+    {
+        try {
+           var image_data = fs.readFileSync(imagePath).toString('base64');
+        } catch (e) {
+           callback({'httpcode':0, 'code':-1, 'message':'file ' + imagePath + ' not exists', 'data':{}});
+           return;
+        }
+
+        if(image_data == null) {
+            callback({'httpcode':0, 'code':-1, 'message':'file ' + imagePath + ' not exists or params error', 'data':{}});
+            return;
+        };
+
+        var request_body = JSON.stringify({
+            app_id: conf.APPID,
+            image : image_data.toString('base64')
+        });
+    }
+    
+    var params = {
+        hostname: conf.API_YOUTU_SERVER,
+        path: '/youtu/ocrapi/driverlicenseocr',
+        method: 'POST',
+        headers: {
+            'Authorization': sign,
+            'User-Agent'   : conf.USER_AGENT(),
+            'Content-Length': request_body.length,
+            'Content-Type': 'text/json'
+        }                
+    };
+     
+    //console.log(request_body);
+    var request = null;
+    if (conf.API_DOMAIN == 0)
+    {
+        request = getrequest(http, params, callback);
+    } 
+    else {
+        request = getrequest(https, params, callback);
+    } 
+       
+    request.on('error', function(e) {
+         callback({'httpcode': 0, 'code': 0, 'message':e.message, 'data': {}});
+    });
+
+    // send the request body
+    request.end(request_body);
+}
+
+/**
+ * @brief bcocr
+ * @param imagePath 待处理的图片路径（本地路径或url）
+ * @param callback 回调函数, 参见Readme 文档
+ */
+exports.bcocr = function(imagePath, callback) {
+
+    callback = callback || function(ret){console.log(ret)};
+
+    var expired = parseInt(Date.now() / 1000) + EXPIRED_SECONDS;
+    var sign  = auth.appSign(expired);
+    var tag = imagePath.substring(0,4);
+    var request_body = '';
+    if (tag == 'http')
+    {
+        var request_body = JSON.stringify({
+            app_id: conf.APPID,
+            url : imagePath
+        });
+    }
+    else
+    {
+        try {
+           var image_data = fs.readFileSync(imagePath).toString('base64');
+        } catch (e) {
+           callback({'httpcode':0, 'code':-1, 'message':'file ' + imagePath + ' not exists', 'data':{}});
+           return;
+        }
+
+        if(image_data == null) {
+            callback({'httpcode':0, 'code':-1, 'message':'file ' + imagePath + ' not exists or params error', 'data':{}});
+            return;
+        };
+
+        var request_body = JSON.stringify({
+            app_id: conf.APPID,
+            image : image_data.toString('base64')
+        });
+    }
+    
+    var params = {
+        hostname: conf.API_YOUTU_SERVER,
+        path: '/youtu/ocrapi/bcocr',
+        method: 'POST',
+        headers: {
+            'Authorization': sign,
+            'User-Agent'   : conf.USER_AGENT(),
+            'Content-Length': request_body.length,
+            'Content-Type': 'text/json'
+        }                
+    };
+     
+    //console.log(request_body);
+    var request = null;
+    if (conf.API_DOMAIN == 0)
+    {
+        request = getrequest(http, params, callback);
+    } 
+    else {
+        request = getrequest(https, params, callback);
+    } 
+       
+    request.on('error', function(e) {
+         callback({'httpcode': 0, 'code': 0, 'message':e.message, 'data': {}});
+    });
+
+    // send the request body
+    request.end(request_body);
+}
+
