@@ -1573,7 +1573,7 @@ exports.generalocr = function(imagePath, callback) {
  * @param imagePath 待处理的图片路径（本地路径或url）
  * @param callback 回调函数, 参见Readme 文档
  */
-exports.driverlicenseocr = function(imagePath, callback) {
+exports.driverlicenseocr = function(imagePath, cardType, callback) {
 
     callback = callback || function(ret){console.log(ret)};
 
@@ -1585,6 +1585,7 @@ exports.driverlicenseocr = function(imagePath, callback) {
     {
         var request_body = JSON.stringify({
             app_id: conf.APPID,
+            type: cardType,
             url : imagePath
         });
     }
@@ -1604,6 +1605,7 @@ exports.driverlicenseocr = function(imagePath, callback) {
 
         var request_body = JSON.stringify({
             app_id: conf.APPID,
+            type: cardType,
             image : image_data.toString('base64')
         });
     }
