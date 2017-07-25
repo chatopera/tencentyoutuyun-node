@@ -1571,6 +1571,7 @@ exports.generalocr = function(imagePath, callback) {
 /**
  * @brief driverlicenseocr
  * @param imagePath 待处理的图片路径（本地路径或url）
+ * @param cardType 图片类型:行驶证/驾驶证 0/1
  * @param callback 回调函数, 参见Readme 文档
  */
 exports.driverlicenseocr = function(imagePath, cardType, callback) {
