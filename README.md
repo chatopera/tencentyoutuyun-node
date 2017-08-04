@@ -387,6 +387,7 @@ git clone https://github.com/TencentYouTu/nodejs_sdk.git
 - `message` 状态码对应的描述文字
 - `data` 数据对象，参考API文档
 
+
 ### `youtu.idcardocr(imagePath,　cardType, callback)`
 
 身份证OCR识别
@@ -402,6 +403,7 @@ git clone https://github.com/TencentYouTu/nodejs_sdk.git
 - `code` 状态码，目前和`httpcode`相同
 - `message` 状态码对应的描述文字
 - `data` 数据对象，参考API文档
+
 
 ### `youtu.namecardocr(imagePath,　retImage, callback)`
 
@@ -419,6 +421,54 @@ git clone https://github.com/TencentYouTu/nodejs_sdk.git
 - `message` 状态码对应的描述文字
 - `data` 数据对象，参考API文档
 
+
+### `youtu.generalocr(imagePath,　callback)`
+
+通用OCR识别
+
+- 参数
+	- `imagePath` 图片路径（url或本地路径）
+	- `callback(data)` 回调函数
+
+其中回调函数`callback`的参数`data`是一个对象，结构如下：
+
+- `httpcode` HTTP状态码
+- `code` 状态码，目前和`httpcode`相同
+- `message` 状态码对应的描述文字
+- `data` 数据对象，参考API文档
+
+
+### `youtu.bcocr(imagePath,　callback)`
+
+名片OCR识别
+
+- 参数
+	- `imagePath` 图片路径（url或本地路径）
+	- `callback(data)` 回调函数
+
+其中回调函数`callback`的参数`data`是一个对象，结构如下：
+
+- `httpcode` HTTP状态码
+- `code` 状态码，目前和`httpcode`相同
+- `message` 状态码对应的描述文字
+- `data` 数据对象，参考API文档
+
+
+### `youtu.driverlicenseocr(imagePath,　cardType, callback)`
+
+行驶证&驾驶证OCR识别
+
+- 参数
+	- `imagePath` 图片路径（url或本地路径）
+	- `cardType` 0 代表输入图像是行驶证， 1代表输入是驾驶证
+	- `callback(data)` 回调函数
+
+其中回调函数`callback`的参数`data`是一个对象，结构如下：
+
+- `httpcode` HTTP状态码
+- `code` 状态码，目前和`httpcode`相同
+- `message` 状态码对应的描述文字
+- `data` 数据对象，参考API文档
 
 
 ## 致谢
