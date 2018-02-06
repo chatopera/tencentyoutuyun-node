@@ -32,7 +32,7 @@ exports.setAppInfo = function(appid, secretId, secretKey, userid, domain) {
     }
     else
     {
-       exports.API_YOUTU_SERVER= 'youtu.api.qcloud.com';
+       exports.API_YOUTU_SERVER= 'api.youtu.qq.com';
     }
     exports.API_DOMAIN = domain;
 }
