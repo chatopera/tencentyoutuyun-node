@@ -503,6 +503,87 @@ exports.faceidentify= function(imagePath, group_id, callback) {
 }
 
 /**
+ * @brief multifaceidentify
+ * @param group_id 识别的组id
+ * @param group_ids s个体存放的组id，可以指定多个组id，用户指定（组默认创建）
+ * @param imagePath 待识别的图片路径（本地路径或url）
+ * @param callback 回调函数, 参见Readme 文档
+ */
+exports.multifaceidentify = function(imagePath, group_id, group_ids, topn, min_size, callback) {
+
+    callback = callback || function(ret){console.log(ret)};
+
+    var expired = parseInt(Date.now() / 1000) + EXPIRED_SECONDS;
+    var sign  = auth.appSign(expired);
+    var tag = imagePath.substring(0,4);
+    var request_body = '';
+    
+    if (tag == 'http')
+    {
+        request_body = JSON.stringify({
+            app_id: conf.APPID,
+            url : imagePath,
+            group_id : group_id,
+            group_ids : group_ids,
+            topn : topn,
+            min_size: min_size,
+        });
+    }
+    else
+    {
+        try {
+            var data = fs.readFileSync(imagePath).toString('base64');
+        } catch (e) {
+            callback({'httpcode':0, 'code':-1, 'message':'file ' + imagePath + ' not exists', 'data':{}});
+            return;
+        }
+        
+        
+        if(data == null) {
+            callback({'httpcode':0, 'code':-1, 'message':'file ' + imagePath + ' not exists or params error', 'data':{}});
+            return;
+        };
+
+        request_body = JSON.stringify({
+            app_id: conf.APPID,
+            image : data.toString('base64'),
+            group_id : group_id,
+            group_ids : group_ids,
+            topn : topn,
+            min_size: min_size,
+        });
+    }
+    
+    var params = {
+        hostname: conf.API_YOUTU_SERVER,
+        path: '/youtu/api/multifaceidentify',
+        method: 'POST',
+        headers: {
+            'Authorization': sign,
+            'User-Agent'   : conf.USER_AGENT(),
+            'Content-Length': request_body.length,
+            'Content-Type': 'text/json'
+        }                
+    };
+        
+    var request = null;
+    if (conf.API_DOMAIN == 0)
+    {
+        request = getrequest(http, params, callback);
+    }
+    else {
+        request = getrequest(https, params, callback);
+    } 
+       
+    request.on('error', function(e) {
+         callback({'httpcode': 0, 'code': 0, 'message':e.message, 'data': {}});
+    });
+
+    // send the request body
+    request.end(request_body);
+}
+
+/**
  * @brief newperson
  * @param imagePath 图片路径（本地路径或url）
  * @param person_id 新建的个体id，用户指定，需要保证app_id下的唯一性
@@ -1349,9 +1430,147 @@ exports.imageporn = function(imagePath,　callback) {
     request.end(request_body);    
 }
 
+/**
+ * @brief imageterrorism
+ * @param imagePath 待检测的路径
+ * @param callback 回调函数, 参见Readme 文档
+ */
+exports.imageterrorism = function(imagePath,　callback) {
+
+    callback = callback || function(ret){console.log(ret)};
+
+    var expired = parseInt(Date.now() / 1000) + EXPIRED_SECONDS;
+    var sign  = auth.appSign(expired);
+    var tag = imagePath.substring(0,4);
+    var request_body = '';
+    if (tag == 'http')
+    {
+        request_body = JSON.stringify({
+            app_id: conf.APPID,
+            url : imagePath,
+        });
+    }
+    else
+    {
+        try {
+             var data = fs.readFileSync(imagePath).toString('base64');
+        } catch (e) {
+             callback({'httpcode':0, 'code':-1, 'message':'file ' + imagePath + ' not exists', 'data':{}});
+             return;
+        }
+        if(data == null) {
+            callback({'httpcode':0, 'code':-1, 'message':'file ' + imagePath + ' not exists or params error', 'data':{}});
+            return;
+        };
+
+        request_body = JSON.stringify({
+            app_id: conf.APPID,
+            image : data.toString('base64'),
+        });
+    }
+    var params = {
+        hostname: conf.API_YOUTU_SERVER,
+        path: '/youtu/imageapi/imageterrorism',
+        method: 'POST',
+        headers: {
+            'Authorization': sign,
+            'User-Agent'   : conf.USER_AGENT(),
+            'Content-Length': request_body.length,
+            'Content-Type': 'text/json'
+        }
+    };
+    //console.log(request_body);
+    //console.log(params);
+    
+    var request = null;
+    if (conf.API_DOMAIN == 0)
+    {
+        request = getrequest(http, params, callback);
+    } 
+    else {
+        request = getrequest(https, params, callback);
+    } 
+        
+    request.on('error', function(e) {
+        callback({'httpcode': 0, 'code': 0, 'message':e.message, 'data': {}});
+    });
+    
+    // send the request body
+    request.end(request_body);    
+}
 
 /**
- * @brief imageporn
+ * @brief carclassify
+ * @param imagePath 待检测的路径
+ * @param callback 回调函数, 参见Readme 文档
+ */
+exports.carclassify = function(imagePath,　callback) {
+
+    callback = callback || function(ret){console.log(ret)};
+
+    var expired = parseInt(Date.now() / 1000) + EXPIRED_SECONDS;
+    var sign  = auth.appSign(expired);
+    var tag = imagePath.substring(0,4);
+    var request_body = '';
+    if (tag == 'http')
+    {
+        request_body = JSON.stringify({
+            app_id: conf.APPID,
+            url : imagePath,
+        });
+    }
+    else
+    {
+        try {
+             var data = fs.readFileSync(imagePath).toString('base64');
+        } catch (e) {
+             callback({'httpcode':0, 'code':-1, 'message':'file ' + imagePath + ' not exists', 'data':{}});
+             return;
+        }
+        if(data == null) {
+            callback({'httpcode':0, 'code':-1, 'message':'file ' + imagePath + ' not exists or params error', 'data':{}});
+            return;
+        };
+
+        request_body = JSON.stringify({
+            app_id: conf.APPID,
+            image : data.toString('base64'),
+        });
+    }
+    var params = {
+        hostname: conf.API_YOUTU_SERVER,
+        path: '/youtu/carapi/carclassify',
+        method: 'POST',
+        headers: {
+            'Authorization': sign,
+            'User-Agent'   : conf.USER_AGENT(),
+            'Content-Length': request_body.length,
+            'Content-Type': 'text/json'
+        }
+    };
+    //console.log(request_body);
+    //console.log(params);
+    
+    var request = null;
+    if (conf.API_DOMAIN == 0)
+    {
+        request = getrequest(http, params, callback);
+    } 
+    else {
+        request = getrequest(https, params, callback);
+    } 
+        
+    request.on('error', function(e) {
+        callback({'httpcode': 0, 'code': 0, 'message':e.message, 'data': {}});
+    });
+    
+    // send the request body
+    request.end(request_body);    
+}
+
+
+/**
+ * @brief idcardocr
  * @param imagePath 待检测的路径
  * @param cardType 0 代表输入图像是身份证正面， 1代表输入是身份证反面
  * @param callback 回调函数, 参见Readme 文档
@@ -1609,6 +1828,216 @@ exports.bcocr = function(imagePath, callback) {
     var params = {
         hostname: conf.API_YOUTU_SERVER,
         path: '/youtu/ocrapi/bcocr',
+        method: 'POST',
+        headers: {
+            'Authorization': sign,
+            'User-Agent'   : conf.USER_AGENT(),
+            'Content-Length': request_body.length,
+            'Content-Type': 'text/json'
+        }                
+    };
+     
+    //console.log(request_body);
+    var request = null;
+    if (conf.API_DOMAIN == 0)
+    {
+        request = getrequest(http, params, callback);
+    } 
+    else {
+        request = getrequest(https, params, callback);
+    } 
+       
+    request.on('error', function(e) {
+         callback({'httpcode': 0, 'code': 0, 'message':e.message, 'data': {}});
+    });
+
+    // send the request body
+    request.end(request_body);
+}
+
+/**
+ * @brief creditcardocr
+ * @param imagePath 待处理的图片路径（本地路径或url）
+ * @param callback 回调函数, 参见Readme 文档
+ */
+exports.creditcardocr = function(imagePath, callback) {
+
+    callback = callback || function(ret){console.log(ret)};
+
+    var expired = parseInt(Date.now() / 1000) + EXPIRED_SECONDS;
+    var sign  = auth.appSign(expired);
+    var tag = imagePath.substring(0,4);
+    var request_body = '';
+    if (tag == 'http')
+    {
+        var request_body = JSON.stringify({
+            app_id: conf.APPID,
+            url : imagePath
+        });
+    }
+    else
+    {
+        try {
+           var image_data = fs.readFileSync(imagePath).toString('base64');
+        } catch (e) {
+           callback({'httpcode':0, 'code':-1, 'message':'file ' + imagePath + ' not exists', 'data':{}});
+           return;
+        }
+
+        if(image_data == null) {
+            callback({'httpcode':0, 'code':-1, 'message':'file ' + imagePath + ' not exists or params error', 'data':{}});
+            return;
+        };
+
+        var request_body = JSON.stringify({
+            app_id: conf.APPID,
+            image : image_data.toString('base64')
+        });
+    }
+    
+    var params = {
+        hostname: conf.API_YOUTU_SERVER,
+        path: '/youtu/ocrapi/creditcardocr',
+        method: 'POST',
+        headers: {
+            'Authorization': sign,
+            'User-Agent'   : conf.USER_AGENT(),
+            'Content-Length': request_body.length,
+            'Content-Type': 'text/json'
+        }                
+    };
+     
+    //console.log(request_body);
+    var request = null;
+    if (conf.API_DOMAIN == 0)
+    {
+        request = getrequest(http, params, callback);
+    } 
+    else {
+        request = getrequest(https, params, callback);
+    } 
+       
+    request.on('error', function(e) {
+         callback({'httpcode': 0, 'code': 0, 'message':e.message, 'data': {}});
+    });
+
+    // send the request body
+    request.end(request_body);
+}
+
+/**
+ * @brief bizlicenseocr
+ * @param imagePath 待处理的图片路径（本地路径或url）
+ * @param callback 回调函数, 参见Readme 文档
+ */
+exports.bizlicenseocr = function(imagePath, callback) {
+
+    callback = callback || function(ret){console.log(ret)};
+
+    var expired = parseInt(Date.now() / 1000) + EXPIRED_SECONDS;
+    var sign  = auth.appSign(expired);
+    var tag = imagePath.substring(0,4);
+    var request_body = '';
+    if (tag == 'http')
+    {
+        var request_body = JSON.stringify({
+            app_id: conf.APPID,
+            url : imagePath
+        });
+    }
+    else
+    {
+        try {
+           var image_data = fs.readFileSync(imagePath).toString('base64');
+        } catch (e) {
+           callback({'httpcode':0, 'code':-1, 'message':'file ' + imagePath + ' not exists', 'data':{}});
+           return;
+        }
+
+        if(image_data == null) {
+            callback({'httpcode':0, 'code':-1, 'message':'file ' + imagePath + ' not exists or params error', 'data':{}});
+            return;
+        };
+
+        var request_body = JSON.stringify({
+            app_id: conf.APPID,
+            image : image_data.toString('base64')
+        });
+    }
+    
+    var params = {
+        hostname: conf.API_YOUTU_SERVER,
+        path: '/youtu/ocrapi/bizlicenseocr',
+        method: 'POST',
+        headers: {
+            'Authorization': sign,
+            'User-Agent'   : conf.USER_AGENT(),
+            'Content-Length': request_body.length,
+            'Content-Type': 'text/json'
+        }                
+    };
+     
+    //console.log(request_body);
+    var request = null;
+    if (conf.API_DOMAIN == 0)
+    {
+        request = getrequest(http, params, callback);
+    } 
+    else {
+        request = getrequest(https, params, callback);
+    } 
+       
+    request.on('error', function(e) {
+         callback({'httpcode': 0, 'code': 0, 'message':e.message, 'data': {}});
+    });
+
+    // send the request body
+    request.end(request_body);
+}
+
+/**
+ * @brief plateocr
+ * @param imagePath 待处理的图片路径（本地路径或url）
+ * @param callback 回调函数, 参见Readme 文档
+ */
+exports.plateocr = function(imagePath, callback) {
+
+    callback = callback || function(ret){console.log(ret)};
+
+    var expired = parseInt(Date.now() / 1000) + EXPIRED_SECONDS;
+    var sign  = auth.appSign(expired);
+    var tag = imagePath.substring(0,4);
+    var request_body = '';
+    if (tag == 'http')
+    {
+        var request_body = JSON.stringify({
+            app_id: conf.APPID,
+            url : imagePath
+        });
+    }
+    else
+    {
+        try {
+           var image_data = fs.readFileSync(imagePath).toString('base64');
+        } catch (e) {
+           callback({'httpcode':0, 'code':-1, 'message':'file ' + imagePath + ' not exists', 'data':{}});
+           return;
+        }
+
+        if(image_data == null) {
+            callback({'httpcode':0, 'code':-1, 'message':'file ' + imagePath + ' not exists or params error', 'data':{}});
+            return;
+        };
+
+        var request_body = JSON.stringify({
+            app_id: conf.APPID,
+            image : image_data.toString('base64')
+        });
+    }
+    
+    var params = {
+        hostname: conf.API_YOUTU_SERVER,
+        path: '/youtu/ocrapi/plateocr',
         method: 'POST',
         headers: {
             'Authorization': sign,

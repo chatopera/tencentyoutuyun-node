@@ -5,7 +5,7 @@ nodejs sdk for [腾讯优图开放平台](http://open.youtu.qq.com/)
 ## 安装
 
 ```sh
-git clone https://github.com/TencentYouTu/nodejs_sdk.git
+git clone https://github.com/Tencent-YouTu/nodejs_sdk.git
 ```
 
 ## 名词
@@ -154,6 +154,25 @@ git clone https://github.com/TencentYouTu/nodejs_sdk.git
 - 参数
 	- `image_a` 图片路径
 	- `group_id` 需要识别的人 所在的组
+	- `callback(data)` 回调函数
+
+其中回调函数`callback`的参数`data`是一个对象，结构如下：
+
+- `httpcode` HTTP状态码
+- `code` 状态码，目前和`httpcode`相同
+- `message` 状态码对应的描述文字
+- `data` 数据对象，参考API文档
+
+#### `youtu.multifaceidentify(image_a, group_id, group_ids, topn, min_size, callback)`
+
+上传人脸图片，进行多人脸检索。
+
+- 参数
+	- `image_a` 图片路径
+	- `group_id` 需要识别的人 所在的组
+	- `group_ids` 需要识别的人所在的组的列表（数组）
+	- `topn` 候选人脸数量，一般使用默认值5
+	- `min_size` 人脸检测最小尺寸，一般使用默认值40
 	- `callback(data)` 回调函数
 
 其中回调函数`callback`的参数`data`是一个对象，结构如下：
@@ -371,10 +390,39 @@ git clone https://github.com/TencentYouTu/nodejs_sdk.git
 - `message` 状态码对应的描述文字
 - `data` 数据对象，参考API文档
 
-
 ### `youtu.imageporn(imagePath,　callback)`
 
 色情图像检测
+
+- 参数
+	- `imagePath` 图片路径（url或本地路径）
+	- `callback(data)` 回调函数
+
+其中回调函数`callback`的参数`data`是一个对象，结构如下：
+
+- `httpcode` HTTP状态码
+- `code` 状态码，目前和`httpcode`相同
+- `message` 状态码对应的描述文字
+- `data` 数据对象，参考API文档
+
+### `youtu.imageterrorism(imagePath,　callback)`
+
+暴恐图片识别
+
+- 参数
+	- `imagePath` 图片路径（url或本地路径）
+	- `callback(data)` 回调函数
+
+其中回调函数`callback`的参数`data`是一个对象，结构如下：
+
+- `httpcode` HTTP状态码
+- `code` 状态码，目前和`httpcode`相同
+- `message` 状态码对应的描述文字
+- `data` 数据对象，参考API文档
+
+### `youtu.carclassify(imagePath,　callback)`
+
+车辆属性识别
 
 - 参数
 	- `imagePath` 图片路径（url或本地路径）
@@ -453,6 +501,53 @@ git clone https://github.com/TencentYouTu/nodejs_sdk.git
 - `message` 状态码对应的描述文字
 - `data` 数据对象，参考API文档
 
+
+### `youtu.creditcardocr(imagePath,　callback)`
+
+银行卡OCR识别
+
+- 参数
+	- `imagePath` 图片路径（url或本地路径）
+	- `callback(data)` 回调函数
+
+其中回调函数`callback`的参数`data`是一个对象，结构如下：
+
+- `httpcode` HTTP状态码
+- `code` 状态码，目前和`httpcode`相同
+- `message` 状态码对应的描述文字
+- `data` 数据对象，参考API文档
+
+
+### `youtu.bizlicenseocr(imagePath,　callback)`
+
+营业执照OCR识别
+
+- 参数
+	- `imagePath` 图片路径（url或本地路径）
+	- `callback(data)` 回调函数
+
+其中回调函数`callback`的参数`data`是一个对象，结构如下：
+
+- `httpcode` HTTP状态码
+- `code` 状态码，目前和`httpcode`相同
+- `message` 状态码对应的描述文字
+- `data` 数据对象，参考API文档
+
+
+### `youtu.plateocr(imagePath,　callback)`
+
+车牌OCR识别
+
+- 参数
+	- `imagePath` 图片路径（url或本地路径）
+	- `callback(data)` 回调函数
+
+其中回调函数`callback`的参数`data`是一个对象，结构如下：
+
+- `httpcode` HTTP状态码
+- `code` 状态码，目前和`httpcode`相同
+- `message` 状态码对应的描述文字
+- `data` 数据对象，参考API文档
 
 ## 致谢
 20150717 感谢[TooBug](https://github.com/TooBug) 提出的接口说明文档 和 bug 修复
